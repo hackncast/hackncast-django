@@ -93,8 +93,20 @@ MIDDLEWARE_CLASSES = [
 
 TEMPLATES = [
     {
+        'NAME': 'django.jinja2',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [
+            str(ROOT_DIR.path('templates')),
+        ],
+        'OPTIONS': {
+            'environment': 'hnc.jinja2.environment',
+        },
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            str(ROOT_DIR.path('templates', 'dj')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

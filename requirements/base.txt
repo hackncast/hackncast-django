@@ -1,0 +1,7 @@
+Django==1.9
+django-environ
+Jinja2
+MarkupSafe
+psycopg2
+six
+sqlparse

@@ -1,0 +1,141 @@
+---
+- name: Provision Django Project
+  hosts: localhost
+  connection: local
+
+  vars:
+    name: hackncast
+    postgesql_service: "{{ lookup('pipe', 'ls -1 /lib/systemd/system/postgresql*.service | head -1') }}"
+    db_name: "{{ lookup('env','DJANGO_DB_NAME')  }}"
+    db_user: "{{ lookup('env','DJANGO_DB_USER')  }}"
+    db_password: "{{ lookup('env','DJANGO_DB_PASSWORD')  }}"
+    db_host: "{{ lookup('env','DJANGO_DB_HOST')  }}"
+    db_port: "{{ lookup('env','DJANGO_DB_PORT')  }}"
+
+  vars_files:
+    - "vars/packages-postgesql-{{ ansible_os_family }}.yml"
+
+  tasks:
+    - name: Install OS Requred packages
+      with_items: "{{ os_packages }}"
+      package: name={{ item }} state=present
+      become: yes
+      tags:
+        - install
+
+    - name: Creates PostgreSQL Cluster
+      shell: postgresql-setup initdb
+      become: yes
+      ignore_errors: yes
+      tags:
+        - install
+
+    - name: Ensure that PostgreSQL is running
+      service: name={{ postgesql_service | basename }} state=started
+      become: yes
+      tags:
+        - install
+        - teardown
+        - setup
+        - clean
+
+    - name: Ensure PostgreSQL is listening correct IP
+      lineinfile: dest=/var/lib/pgsql/data/postgresql.conf
+                  regexp='^#?listen_addresses\s*='
+                  line="listen_addresses = '{{ db_host }}'"
+                  state=present
+      become: yes
+      notify: restart postgresql
+      tags:
+        - install
+        - setup
+
+    - name: Ensure PostgreSQL is listening correct port
+      lineinfile: dest=/var/lib/pgsql/data/postgresql.conf
+                  regexp='^#?port\s*='
+                  line="port = {{ db_port }}"
+                  state=present
+      become: yes
+      notify: restart postgresql
+      tags:
+        - install
+        - setup
+
+    - name: Remove database
+      postgresql_db: name={{db_name}} state=absent
+      become: yes
+      become_user: postgres
+      ignore_errors: yes
+      tags:
+        - install
+        - teardown
+        - clean
+
+    - name: Remove user
+      postgresql_user: name={{db_user}} state=absent
+      become_user: postgres
+      become: yes
+      ignore_errors: yes
+      tags:
+        - install
+        - teardown
+
+    - name: Remove pg_hba entry
+      lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf
+                  regexp="^host\s*{{ db_name }}\s*{{ db_user }}\s*127.0.0.1/32\s*md5"
+                  state=absent
+      become: yes
+      notify: restart postgresql
+      tags:
+        - install
+        - teardown
+
+    - name: Add pg_hba entry
+      lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf
+                  regexp="^host\s*{{ db_name }}\s*{{ db_user }}\s*127.0.0.1/32\s*md5$"
+                  insertafter="^#\s*TYPE\s*DATABASE"
+                  line="host    {{ db_name }}             {{ db_user }}         127.0.0.1/32            md5"
+                  state=present
+      become: yes
+      notify: restart postgresql
+      tags:
+        - install
+        - setup
+
+    - name: Create database
+      postgresql_db: name={{ db_name }}
+      become: yes
+      become_user: postgres
+      tags:
+        - install
+        - setup
+        - clean
+
+    - name: Creates user
+      postgresql_user: db={{db_name}} name={{db_user}} password={{db_password}} priv=ALL
+      become: yes
+      become_user: postgres
+      tags:
+        - install
+        - setup
+
+    - name: Remove unnecessary privileges
+      postgresql_user: name={{db_user}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+      become: yes
+      become_user: postgres
+      tags:
+        - install
+        - setup
+
+    - name: Ensure that PostgreSQL is stopped
+      service: name={{ postgesql_service | basename }} state=stopped
+      become: yes
+      tags:
+        - teardown
+
+  handlers:
+    - name: restart postgresql
+      service: name={{ postgesql_service | basename }} state=restarted
+      become: yes
+      tags:
+        - always

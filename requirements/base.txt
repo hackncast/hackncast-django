@@ -1,7 +1,9 @@
 Django==1.9
 django-environ
+django-extensions
 Jinja2
 MarkupSafe
 psycopg2
 six
 sqlparse
+Werkzeug

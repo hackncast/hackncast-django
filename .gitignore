@@ -90,3 +90,6 @@ ENV/
 
 # node modules
 node_modules/
+
+# dev environment variables
+dev_env.sh

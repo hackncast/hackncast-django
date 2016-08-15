@@ -27,7 +27,7 @@ USE_TZ = True
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    str(ROOT_DIR.path('frontend/static')),
+    str(ROOT_DIR.path('frontend/dist')),
 )
 
 # Media files

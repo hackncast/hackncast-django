@@ -2,10 +2,10 @@
   "base": ".",
   "paths": {
     "source": {
-      "config": "assets/semantic/src/theme.config",
-      "definitions": "assets/semantic/src/definitions/",
-      "site": "assets/semantic/src/site/",
-      "themes": "assets/semantic/src/themes/"
+      "config": "src/semantic/src/theme.config",
+      "definitions": "src/semantic/src/definitions/",
+      "site": "src/semantic/src/site/",
+      "themes": "src/semantic/src/themes/"
     },
     "output": {
       "packaged": "dist/css/",

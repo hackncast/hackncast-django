@@ -18,6 +18,8 @@ ON_VENV=. $(WORKON_HOME)/$(VENV_NAME)/bin/activate
 LOAD_VENV=. /usr/bin/virtualenvwrapper.sh
 RUN_ANSILBE=. ./infra/dev_env.sh; ansible-playbook -i localhost, 
 
+FRONTEND_TARGETS=$(shell grep "^gulp\.task" frontend/gulpfile.js | cut -d"'" -f2 | grep -v "^clean$$")
+
 # Environment target
 venv_clean:
 	@echo -e $(BLUE)Removing venv...$(NC)
@@ -35,28 +37,37 @@ venv_install:
 db_clean:
 	$(RUN_ANSILBE) $(ANSIBLEOPTS) infra/ansible/postgresql.yml --tags clean
 	$(ON_VENV); ./manage.py migrate
+	$(MAKE) db_load
+
+db_load:
+	$(ON_VENV); ./manage.py social
 
 bootstrap-dev: venv_clean venv_create venv_install
 	$(RUN_ANSILBE) $(ANSIBLEOPTS) infra/ansible/postgresql.yml --tags install
 	$(ON_VENV); ./manage.py migrate
-	$(MAKE) run
+	$(MAKE) db_load run
 
 setup-env-vars:
 	@echo -e $(BLUE)Updating env vars...$(NC)
 	-rm $(ROOT_PATH)/settings/.env
 	-cat infra/dev_env.sh > $(ROOT_PATH)/settings/.env
-	@echo -e $(GREEN)Done!$(HN)
 
 # Application targets
 run: setup-env-vars
 	@echo -e $(GREEN)Running Django...$(NC)
 	$(ON_VENV); ./manage.py runserver_plus $(BIND)
 
+browser:
+	sleep 2
+	xdg-open http://localhost:3000
+
+run-n-watch:
+	$(MAKE) -j3 browser run watch
+
 clean:
 	@echo -e $(RED)Cleaning python compiled files and folders...$(NC)
 	find . -type d -name "__pycache__" | xargs -I% rm -rf %
 	find . -type f -name "*.pyc" | xargs -I% rm -rf %
-	@echo -e $(GREEN)Done!$(HN)
 
 urls: setup-env-vars
 	@echo -e $(GREEN)Listing project URLs...$(NC)
@@ -67,14 +78,15 @@ shell: setup-env-vars
 	$(ON_VENV); ./manage.py shell_plus
 
 # Frontend targets
-frontend-semantic:
+semantic:
 	@echo -e $(BLUE)Building Semantic-UI...$(NC)
-	cd frontend/; ./node_modules/gulp-cli/bin/gulp.js --gulpfile ./semantic/gulpfile.js build
-	@echo -e $(GREEN)Done!$(HN)
+	cd frontend/; ./node_modules/gulp-cli/bin/gulp.js --gulpfile ./src/semantic/gulpfile.js build
 
-frontend-clean:
-	@echo -e $(RED)Cleaning frontend files and folders...$(NC)
-	rm -rf frontend/static/*
-	@echo -e $(GREEN)Done!$(HN)
+$(FRONTEND_TARGETS):
+	cd frontend/; ./node_modules/gulp-cli/bin/gulp.js $@
 
-.PHONY: clean
+frontend:
+	$(MAKE) -j3 semantic vendor img
+	$(MAKE) -j2 css js
+
+.PHONY: venv_clean venv_create venv_install db_clean db_load bootstrap-dev setup-env-vars run browser run-n-watch clean urls shell semantic frontend $(FRONTEND_TARGETS)

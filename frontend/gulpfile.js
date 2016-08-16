@@ -65,7 +65,7 @@ gulp.task('img', function(){
 
 /* Task copy vendor files */
 gulp.task('vendor', function(){
-  return gulp.src(['./src/vendor/*'])
+  return gulp.src(['./src/vendor/**/*'])
   .pipe(gulp.dest('./dist/'))
 });
 

@@ -1,0 +1,22 @@
+Infrastructure
+[X] Create a gulpfile
+[X] Adds browsersync support
+[X] Create a Makefile
+[ ] Create vagrant file
+[ ] Create docker file?
+
+Features
+[X] Twitter Social Login
+[X] Github Social Login
+[ ] Customize the user model
+[ ] User profiles
+[ ] News page
+[ ] Columns page
+[ ] Voting for topics
+
+Fixes
+[ ] Google social login implementation
+
+Appearance
+[ ] Create custom template for email confirmation
+[ ] Create custom template for registration

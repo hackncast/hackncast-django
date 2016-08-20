@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% load i18n static account socialaccount %}
+
+{% block head_title %}Login | {{ site.name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'semantic/custom/login.min.css' %}">
+{% endblock styles %}
+
+{% block header_js %}
+<script src="{% static 'js/user/login.min.js' %}"></script>
+{% endblock header_js %}
+
+{% block content %}
+{% get_providers as socialaccount_providers %}
+<h2 class="ui teal image header">
+  <img src="{% static 'img/hnc-logo.svg' %}" class="image" style="width: 100px">
+  <div class="content">
+    Seja bem vindo!
+  </div>
+</h2>
+
+<div class="ui left aligned stacked segment">
+  <form class="ui large form login" method="POST" action="{% url 'account_login' %}">
+
+    {% csrf_token %}
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+    <!-- username/email -->
+    <div class="field {% if form.login.errors %}error{% endif %}">
+      {% if form.login.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.login.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="mail icon"></i>
+        <input id="id_login" autofocus="autofocus" type="text"
+               name="login" placeholder="E-mail"
+               value="{% if form.login.value %}{{ form.login.value }}{% endif %}">
+      </div>
+    </div>
+
+    <!-- password -->
+    <div class="field {% if form.password.errors %}error{% endif %}">
+      {% if form.password.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.password.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="lock icon"></i>
+        <input style="" id="id_password" name="password" placeholder="Senha" type="password">
+      </div>
+    </div>
+
+
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input class="hidden" id="id_remember" name="remember" type="checkbox" 
+               {% if form.remember.value %}checked{% endif %}>
+        <label>Lembrar de mim</label>
+      </div>
+    </div>
+
+    <div class="two ui buttons">
+      <button class="ui blue submit button" type="submit">Login</button>
+      <a class="ui button" href="{% url 'account_reset_password' %}">Esqueceu a senha?</a>
+    </div>
+
+    <div class="ui error message" {% if form.non_field_errors %}style="display: block"{% endif %}>
+      <ul class="list">
+        {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </form>
+
+  <div class="ui horizontal divider">
+    Ou
+  </div>
+
+  {% if socialaccount_providers|dictsort:"id" %}
+  <div class="ui fluid icon buttons">
+    {% for provider in socialaccount_providers %}
+    {% if provider.id == "openid" %}
+    {% for brand in provider.get_brands %}
+    <a class="ui button social-{{brand.id}}"
+      title="Login com {{brand.name}}"
+      href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">
+      <i class="{{ brand.id }} icon"></i>
+    </a>
+    {% endfor %}
+    {% endif %}
+    <a class="ui button social-{{provider.id}}"
+      title="Login com {{provider.name}}"
+      href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+      <i class="{{ provider.id }} icon"></i>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<div class="ui message">
+  Novo por aqui?  <a href="{{ signup_url }}">Registre-se</a>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,59 @@
+@import (inline) "./../../dist/semantic/components/reset.css";
+@import (inline) "./../../dist/semantic/components/site.css";
+
+@import (inline) "./../../dist/semantic/components/container.css";
+@import (inline) "./../../dist/semantic/components/grid.css";
+@import (inline) "./../../dist/semantic/components/header.css";
+@import (inline) "./../../dist/semantic/components/image.css";
+@import (inline) "./../../dist/semantic/components/menu.css";
+
+@import (inline) "./../../dist/semantic/components/divider.css";
+@import (inline) "./../../dist/semantic/components/segment.css";
+@import (inline) "./../../dist/semantic/components/form.css";
+@import (inline) "./../../dist/semantic/components/input.css";
+@import (inline) "./../../dist/semantic/components/button.css";
+@import (inline) "./../../dist/semantic/components/list.css";
+@import (inline) "./../../dist/semantic/components/message.css";
+@import (inline) "./../../dist/semantic/components/icon.css";
+@import (inline) "./../../dist/semantic/components/checkbox.css";
+@import (inline) "./../../dist/semantic/components/label.css";
+
+body {
+  background-color: #2e2e2e;
+  & > .grid {
+    height: 100%;
+  }
+}
+
+.image {
+  margin-top: -100px;
+}
+
+.column {
+  max-width: 450px;
+}
+
+.ui.image.header {
+  margin-bottom: 0px;
+}
+
+.ui.button {
+  &.social-twitter {
+    background-color: #00719b;
+    &:hover {
+      background-color: #0084B4;
+    }
+  }
+  &.social-google {
+    background-color: #DC4A38;
+    &:hover {
+      background-color: #de321d;
+    }
+  }
+  &.social-github {
+    background-color: #E0E1E2;
+    &:hover {
+      background-color: #CACBCD;
+    }
+  }
+}

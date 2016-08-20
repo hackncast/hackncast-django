@@ -27,7 +27,7 @@ $(document).ready(function() {
         identifier  : 'password2',
         rules: [
         {
-          type   : 'match[password1]|empty',
+          type   : 'match[password1]',
           prompt : 'As duas senhas devem ser iguais'
         }
         ]

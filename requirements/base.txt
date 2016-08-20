@@ -1,4 +1,5 @@
 Django==1.9
+django-allauth
 django-environ
 django-extensions
 Jinja2

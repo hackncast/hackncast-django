@@ -54,6 +54,13 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='')
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = (
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -63,6 +70,7 @@ AUTH_PASSWORD_VALIDATORS = (
 )
 
 AUTH_USER_MODEL = "user.HNCUser"
+ACCOUNT_ADAPTER = 'apps.user.adapter.CustomAccountAdapter'
 
 #################################### Apps #####################################
 DJANGO_APPS = (
@@ -77,6 +85,12 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'django_extensions',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.twitter',
 )
 
 LOCAL_APPS = (
@@ -124,5 +138,44 @@ TEMPLATES = [
 ]
 
 ########################## Third Party App Settings ###########################
+CRISPY_TEMPLATE_PACK = 'semanticui'
+
+# Allauth Settings
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USER_MODEL_EMAIL_FIELD = "email"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/user/profile"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
+
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+#SOCIALACCOUNT_QUERY_EMAIL = False
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online'
+        }
+    }
+}
+
 
 ############################ Custom Site Settings #############################
+DJANGO_DOMAIN = env('DJANGO_DOMAIN')
+
+TWITTER_KEY = env('TWITTER_KEY')
+TWITTER_SECRET = env('TWITTER_SECRET')
+
+GITHUB_KEY = env('GITHUB_KEY')
+GITHUB_SECRET = env('GITHUB_SECRET')
+
+GOOGLE_KEY = env('GOOGLE_KEY')
+GOOGLE_SECRET = env('GOOGLE_SECRET')

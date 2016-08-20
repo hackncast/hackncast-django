@@ -1,0 +1,5 @@
+os_packages:
+  - libpqxx-dev
+  - postgresql
+  - postgresql-client
+  - python-psycopg2

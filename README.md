@@ -1,4 +1,4 @@
-# hackncast-django
+# Hack 'n' Cast - Django
 Official Hack 'n' Cast site (under heavy development).
 
 ## Running

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+{% block head_title %}Registre-se | {{ site.name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'semantic/custom/login.min.css' %}">
+{% endblock styles %}
+
+{% block header_js %}
+<script src="{% static 'js/user/signup.min.js' %}"></script>
+{% endblock header_js %}
+
+
+{% block content %}
+<h1 class="ui teal image header">
+  <img src="{% static 'img/hnc-logo.svg' %}" class="image" style="width: 100px">
+  <div class="content">
+    Registre-se
+  </div>
+</h1>
+
+<div class="ui left aligned stacked segment">
+  <form class="ui large form signup" id="signup_form" method="POST" action="{% url 'account_signup' %}">
+
+    {% csrf_token %}
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+    <!-- email -->
+    <div class="field {% if form.email.errors %}error{% endif %}">
+      {% if form.email.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.email.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="mail icon"></i>
+        <input id="id_email" autofocus="autofocus" type="email"
+               name="email" placeholder="Endereço de e-mail"
+               value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+      </div>
+    </div>
+
+    <!-- password1 -->
+    <div class="field {% if form.password1.errors %}error{% endif %}">
+      {% if form.password1.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.password1.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="lock icon"></i>
+        <input style="" id="id_password1" name="password1" placeholder="Senha" type="password">
+      </div>
+    </div>
+
+    <!-- password2 -->
+    <div class="field {% if form.password2.errors %}error{% endif %}">
+      {% if form.password2.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.password2.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="lock icon"></i>
+        <input style="" id="id_password2" name="password2" placeholder="Senha (novamente)" type="password">
+      </div>
+    </div>
+
+    <button class="ui large fluid blue submit button" type="submit">Cadastrar</button>
+
+
+    <div class="ui error message" {% if form.non_field_errors %}style="display: block"{% endif %}>
+      <ul class="list">
+        {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </form>
+
+</div>
+
+<div class="ui message">
+  Já tem uma conta? Por favor <a href="{{ login_url }}">entre</a>.
+</div>
+{% endblock %}
+

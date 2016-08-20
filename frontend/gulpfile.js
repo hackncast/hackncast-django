@@ -103,6 +103,10 @@ gulp.task('watch', function() {
   gulp.watch(
     ['./src/img/**/*.+(png|jpg|gif|svg)'], ['img']
   ).on('change', browserSync.reload);
+
+  gulp.watch(
+    ['../templates/dj/**/*.html', '../templates/**/*.jinja']
+  ).on('change', browserSync.reload);
 });
 
 /* Clean output and cache */

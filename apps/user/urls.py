@@ -7,4 +7,3 @@ from . import views
 urlpatterns = [
     url(r'^', include('allauth.urls')),
 ]
-

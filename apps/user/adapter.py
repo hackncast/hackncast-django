@@ -1,5 +1,5 @@
-from django.utils.translation import ugettext_lazy as _
 from allauth.account.adapter import DefaultAccountAdapter
+
 
 class CustomAccountAdapter(DefaultAccountAdapter):
     def __init__(self, request=None):

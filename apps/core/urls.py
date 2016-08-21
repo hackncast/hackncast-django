@@ -8,4 +8,3 @@ app_name = 'core'
 urlpatterns = [
     url(r'^$', views.home, name='home'),
 ]
-

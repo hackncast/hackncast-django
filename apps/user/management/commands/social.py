@@ -54,4 +54,3 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS("{} atualizado com sucesso".format(name))
         )
-

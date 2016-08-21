@@ -6,6 +6,7 @@ from django.contrib.auth.base_user import BaseUserManager
 
 from apps.core.querysets import BaseModelQuerySet
 
+
 class EmailUserManager(BaseUserManager):
     def create_user(self, *args, **kwargs):
         """

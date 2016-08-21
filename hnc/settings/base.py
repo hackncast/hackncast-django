@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 ################################ Environ Setup ################################
-import os
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3
@@ -157,7 +156,7 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
-#SOCIALACCOUNT_QUERY_EMAIL = False
+# SOCIALACCOUNT_QUERY_EMAIL = False
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],

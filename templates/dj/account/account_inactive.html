@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head_title %}Conta inativa | {{ site.name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'semantic/custom/login.min.css' %}">
+{% endblock styles %}
+
+{% block header_js %}
+{% endblock header_js %}
+
+{% block content %}
+<div class="ui left aligned stacked segment">
+  <h1 class="ui dividing header">
+    <div class="content">
+      <i class="user icon"></i>
+      Conta inativa
+    </div>
+  </h1>
+  <p>
+  Desculpe, esta conta está inativa.
+  </p>
+</div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>{% block head_title %}{% endblock %}</title>
+
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ static("semantic/custom/index.min.css") }}">
+    {% endblock styles %}
+
+    {% block header_js %}
+    <script src="{{ static("js/core/index.min.js") }}"></script>
+    {% endblock header_js %}
+
+    {% block extra_head %}
+    {% endblock %}
+
+  </head>
+  <body>
+    {% block menu %}
+    {% endblock menu %}
+
+    {% block body %}
+    {% endblock body %}
+
+    {% block extra_body %}
+    {% endblock extra_body %}
+  </body>
+</html>

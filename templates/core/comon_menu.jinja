@@ -1,0 +1,50 @@
+<a class="item">Releases</a>
+<a class="item">Notícias</a>
+<a class="item">Colunas</a>
+<div class="ui simple dropdown item">
+  Mais <i class="dropdown icon"></i>
+  <div class="menu">
+    <a class="item" href="#">Trilhas</a>
+    <a class="item" href="#">Tags</a>
+    <a class="item" href="#">Changelogs</a>
+    <a class="item" href="#">Devs</a>
+    <div class="divider"></div>
+    <div class="item">Bug Report</div>
+    <div class="item">Sobre</div>
+  </div>
+</div>
+<div class="right menu">
+  <div class="ui simple dropdown item">
+    Inscreva-se <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="#">iTunes</a>
+      <a class="item" href="#">Pocketcasts</a>
+      <a class="item" href="#">Podflix</a>
+      <a class="item" href="#">YouTuner</a>
+      <a class="item" href="#">Stitcher</a>
+      <a class="item" href="#">iMasters</a>
+      <div class="divider"></div>
+      <div class="item">Feedburner</div>
+    </div>
+  </div>
+  {% if request.user.is_authenticated() %}
+  {% if request.user.is_admin %}
+  <a class="item" href="#"><i class="settings icon"></i></a>
+  {% endif %}
+  <div class="ui simple dropdown item">
+    {{ request.user.first_name if request.user.first_name else request.user.email|split(0, '@')}} <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="{{ url('user:profile') }}">Perfil</a>
+      {% if request.user.is_staff %}
+      <a class="item" href="#">Dashboard</a>
+      {% endif %}
+      <div class="divider"></div>
+      <a class="item" href="{{ url('account_logout') }}"}}>Logout</a>
+    </div>
+  </div>
+  {% else %}
+  <a href="{{ url('account_login') }}" class="item">
+    <i class="sign in icon"></i>
+  </a>
+  {% endif %}
+</div>

@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'core/index.jinja', {})
+    return render(request, 'core/home.jinja', {})

@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "socialaccount/base.html" %}
 
 {% load i18n static widget_tweaks %}
 
-{% block head_title %}Redefinição de Senha | {{ site.name }}{% endblock %}
+{% block head_title %}Cadastro | {{ site.name }}{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{% static 'semantic/custom/login.min.css' %}">
@@ -13,19 +13,19 @@
 {% endblock header_js %}
 
 {% block content %}
-<h2 class="ui teal image header">
+<h1 class="ui teal image header">
   <img src="{% static 'img/hnc-logo.svg' %}" class="image" style="width: 100px">
   <div class="content">
-    Redefinição de senha
+    Cadastro
   </div>
-</h2>
+</h1>
 
 <div class="ui left aligned stacked segment">
   <p>
-  Esqueceu a sua senha? Insira o seu endereço de e-mail abaixo, e lhe
-  enviaremos um e-mail permitindo que a redefina.
+    Você está prestes a usar sua conta do {{ account.get_provider.name }} para acessar o {{ site.name }}.
+    Como etapa final, por favor preencha o seguinte formulário:
   </p>
-  <form class="ui large form password_reset" method="POST" action="{% url 'account_reset_password' %}">
+  <form class="ui large form signup" id="signup_form" method="POST" action="{% url 'socialaccount_signup' %}">
 
     {% csrf_token %}
 
@@ -33,7 +33,7 @@
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
 
-    <!-- username/email -->
+    <!-- email -->
     <div class="field {% if form.email.errors %}error{% endif %}">
       {% if form.email.errors %}
       <div class="ui pointing below red basic label">
@@ -42,11 +42,11 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="mail icon"></i>
-        {% render_field form.email placeholder="E-mail" autofocus="autofocus" %}
+        {% render_field form.email placeholder="Endereço de E-mail" autofocus="autofocus" %}
       </div>
     </div>
 
-    <button class="ui fluid large blue submit button" type="submit">Redefinir</button>
+    <button class="ui large fluid blue submit button" type="submit">Cadastrar</button>
 
     <div class="ui error message" {% if form.non_field_errors %}style="display: block"{% endif %}>
       <ul class="list">
@@ -54,14 +54,9 @@
         <li>{{ error }}</li>
         {% endfor %}
       </ul>
-
     </div>
   </form>
-</div>
 
-<div class="ui message">
-  Por favor, contacte-nos se tiver qualquer problema para redefinir a sua
-  senha.
 </div>
+{% endblock %}
 
-{% endblock content %}

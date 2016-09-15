@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.twitter',
+    'widget_tweaks',
 )
 
 LOCAL_APPS = (

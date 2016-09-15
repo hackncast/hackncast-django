@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n static %}
+{% load i18n static widget_tweaks %}
 
 {% block head_title %}Registre-se | {{ site.name }}{% endblock %}
 
@@ -39,9 +39,7 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="mail icon"></i>
-        <input id="id_email" autofocus="autofocus" type="email"
-               name="email" placeholder="Endereço de e-mail"
-               value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+        {% render_field form.email placeholder="Endereço de E-mail" autofocus="autofocus" %}
       </div>
     </div>
 
@@ -54,7 +52,7 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="lock icon"></i>
-        <input style="" id="id_password1" name="password1" placeholder="Senha" type="password">
+        {% render_field form.password1 placeholder="Senha" %}
       </div>
     </div>
 
@@ -67,7 +65,7 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="lock icon"></i>
-        <input style="" id="id_password2" name="password2" placeholder="Senha (novamente)" type="password">
+        {% render_field form.password2 placeholder="Senha (novamente)" %}
       </div>
     </div>
 

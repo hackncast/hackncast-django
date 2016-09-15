@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n static account socialaccount %}
+{% load i18n static account socialaccount widget_tweaks %}
 
 {% block head_title %}Login | {{ site.name }}{% endblock %}
 
@@ -30,6 +30,7 @@
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
 
+
     <!-- username/email -->
     <div class="field {% if form.login.errors %}error{% endif %}">
       {% if form.login.errors %}
@@ -39,9 +40,7 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="mail icon"></i>
-        <input id="id_login" autofocus="autofocus" type="text"
-               name="login" placeholder="E-mail"
-               value="{% if form.login.value %}{{ form.login.value }}{% endif %}">
+        {% render_field form.login placeholder="E-mail" autofocus="autofocus" %}
       </div>
     </div>
 
@@ -54,15 +53,14 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="lock icon"></i>
-        <input style="" id="id_password" name="password" placeholder="Senha" type="password">
+        {% render_field form.password placeholder="Senha" %}
       </div>
     </div>
 
 
     <div class="field">
       <div class="ui toggle checkbox">
-        <input class="hidden" id="id_remember" name="remember" type="checkbox" 
-               {% if form.remember.value %}checked{% endif %}>
+        {% render_field form.remember class="hidden" %}
         <label>Lembrar de mim</label>
       </div>
     </div>

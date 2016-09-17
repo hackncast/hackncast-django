@@ -1,10 +1,17 @@
-//=include src/vendor/jquery/jquery-3.1.0.min.js
-//=include dist/semantic/components/form.min.js
-//=include dist/semantic/components/transition.min.js
+//=include src/js/base.js
 
 $(document).ready(function() {
   $('.ui.form').form({
     fields: {
+      first_name: {
+        identifier  : 'first_name',
+        rules: [
+        {
+          type   : 'empty',
+          prompt : 'Por favor, informe o seu nome.'
+        }
+        ]
+      },
       email: {
         identifier  : 'email',
         rules: [

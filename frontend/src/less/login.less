@@ -1,22 +1,10 @@
-@import (inline) "./../../dist/semantic/components/reset.css";
-@import (inline) "./../../dist/semantic/components/site.css";
+@import "src/less/base";
 
-@import (inline) "./../../dist/semantic/components/container.css";
-@import (inline) "./../../dist/semantic/components/grid.css";
-@import (inline) "./../../dist/semantic/components/header.css";
-@import (inline) "./../../dist/semantic/components/image.css";
-@import (inline) "./../../dist/semantic/components/menu.css";
-
-@import (inline) "./../../dist/semantic/components/divider.css";
-@import (inline) "./../../dist/semantic/components/segment.css";
-@import (inline) "./../../dist/semantic/components/form.css";
-@import (inline) "./../../dist/semantic/components/input.css";
-@import (inline) "./../../dist/semantic/components/button.css";
-@import (inline) "./../../dist/semantic/components/list.css";
-@import (inline) "./../../dist/semantic/components/message.css";
-@import (inline) "./../../dist/semantic/components/icon.css";
-@import (inline) "./../../dist/semantic/components/checkbox.css";
-@import (inline) "./../../dist/semantic/components/label.css";
+@import (inline) "dist/semantic/components/form.css";
+@import (inline) "dist/semantic/components/input.css";
+@import (inline) "dist/semantic/components/message.css";
+@import (inline) "dist/semantic/components/checkbox.css";
+@import (inline) "dist/semantic/components/label.css";
 
 body {
   background-color: #2e2e2e;
@@ -56,4 +44,10 @@ body {
       background-color: #CACBCD;
     }
   }
+}
+
+.g-recaptcha > div {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

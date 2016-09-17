@@ -1,0 +1,89 @@
+@import (inline) "dist/semantic/components/reset.css";
+@import (inline) "dist/semantic/components/site.css";
+
+@import (inline) "dist/semantic/components/container.css";
+@import (inline) "dist/semantic/components/grid.css";
+@import (inline) "dist/semantic/components/header.css";
+@import (inline) "dist/semantic/components/image.css";
+@import (inline) "dist/semantic/components/menu.css";
+
+@import (inline) "dist/semantic/components/divider.css";
+@import (inline) "dist/semantic/components/dropdown.css";
+@import (inline) "dist/semantic/components/segment.css";
+@import (inline) "dist/semantic/components/button.css";
+@import (inline) "dist/semantic/components/list.css";
+@import (inline) "dist/semantic/components/icon.css";
+@import (inline) "dist/semantic/components/sidebar.css";
+@import (inline) "dist/semantic/components/transition.css";
+
+@font-face {
+  font-family: 'Coolvetica-Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/static/fonts/coolvetica_rg.ttf');
+}
+
+// @import "src/vendor/font-awesome/less/variables.less";
+// @fa-font-path: "../../fonts";
+// @import "src/vendor/font-awesome/less/mixins.less";
+// @import "src/vendor/font-awesome/less/path.less";
+// @import "src/vendor/font-awesome/less/core.less";
+// @import "src/vendor/font-awesome/less/larger.less";
+// @import "src/vendor/font-awesome/less/fixed-width.less";
+// @import "src/vendor/font-awesome/less/list.less";
+// @import "src/vendor/font-awesome/less/bordered-pulled.less";
+// @import "src/vendor/font-awesome/less/animated";
+// @import "src/vendor/font-awesome/less/rotated-flipped";
+// @import "src/vendor/font-awesome/less/stacked";
+// @import "src/vendor/font-awesome/less/icons";
+// @import "src/vendor/font-awesome/less/screen-reader";
+
+@import (inline) "src/vendor/jGrowl/jquery.jgrowl.css";
+
+/* jGrowl appearence tweak */
+.jGrowl {
+  margin-top: 50px;
+  & .jGrowl-closer  {
+    width: 300px;
+    opacity: 1;
+    filter: unset;
+    -ms-filter: unset;
+  }
+  & .jGrowl-notification.alert {
+    box-shadow: 0 0 0 0px rgba(34,36,38,.22) inset,0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.15);
+    padding-left: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 300px;
+    background-color: #27292a;
+    color: #fff;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    opacity: 1;
+    filter: unset;
+    -ms-filter: unset;
+
+    &.success {
+      background-color: lighten(#16ab39, 5%);
+    }
+    &.debug {
+      background-color: lighten(#767676, 5%);
+    }
+    &.info {
+      background-color: lighten(#1678c2, 5%);
+    }
+    &.warning {
+      background-color: lighten(#F2711C, 5%);
+    }
+    &.error {
+      background-color: lighten(#d01919, 5%);
+    }
+
+    .jGrowl-header {
+      font-size: 1.1em;
+    }
+
+    .jGrowl-message {
+      font-size: 1em;
+    }
+  }
+}

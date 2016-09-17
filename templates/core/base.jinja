@@ -30,5 +30,18 @@
 
     {% block extra_body %}
     {% endblock extra_body %}
+
+    <script type="text/javascript" charset="utf-8">
+      {%- set _messages = messages() %}
+      {%- if _messages %}
+      $(document).ready(function() {
+        {%- for message in messages() %}
+        var opts = {{ message.extra_tags|safe }};
+        opts['theme'] = "{{ message.level_tag }}";
+        $.jGrowl("{{ message }}", opts);
+        {%- endfor %}
+      });
+      {%- endif %}
+    </script>
   </body>
 </html>

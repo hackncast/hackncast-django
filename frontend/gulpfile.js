@@ -93,7 +93,7 @@ gulp.task('watch', function() {
   })
 
   gulp.watch(
-      ['./src/less/**/*.less', './dist/semantic/**/*.css'], ['css']
+      ['./src/less/**/*.less', './dist/semantic/*.css', './dist/semantic/components/*.css'], ['css']
   ).on('change', browserSync.reload);
 
   gulp.watch(

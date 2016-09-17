@@ -30,6 +30,19 @@
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
 
+    <!-- first name -->
+    <div class="field {% if form.email.errors %}error{% endif %}">
+      {% if form.first_name.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.first_name.errors.0 }}
+      </div>
+      {% endif %}
+      <div class="ui left icon input">
+        <i class="user icon"></i>
+        {% render_field form.first_name placeholder="Nome" autofocus="autofocus" %}
+      </div>
+    </div>
+
     <!-- email -->
     <div class="field {% if form.email.errors %}error{% endif %}">
       {% if form.email.errors %}
@@ -39,7 +52,7 @@
       {% endif %}
       <div class="ui left icon input">
         <i class="mail icon"></i>
-        {% render_field form.email placeholder="Endereço de E-mail" autofocus="autofocus" %}
+        {% render_field form.email placeholder="Endereço de E-mail" %}
       </div>
     </div>
 
@@ -69,7 +82,19 @@
       </div>
     </div>
 
-    <button class="ui large fluid blue submit button" type="submit">Cadastrar</button>
+    <div class="field {% if form.captcha.errors %}error{% endif %}">
+      {% if form.captcha.errors %}
+      <div class="ui pointing below red basic label">
+        {{ form.captcha.errors.0 }}
+      </div>
+      {% endif %}
+      {% render_field form.captcha %}
+    </div>
+
+    <button class="ui large fluid blue submit right labeled icon button" type="submit">
+      <i class="sign in icon"></i>
+      Cadastrar
+    </button>
 
 
     <div class="ui error message" {% if form.non_field_errors %}style="display: block"{% endif %}>
@@ -84,7 +109,7 @@
 </div>
 
 <div class="ui message">
-  Já tem uma conta? Por favor <a href="{{ login_url }}">entre</a>.
+  Já tem uma conta? Por favor <a href="{% url 'account_login' %}">entre</a>.
 </div>
 {% endblock %}
 

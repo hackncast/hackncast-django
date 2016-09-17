@@ -90,10 +90,12 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.twitter',
+    'captcha',
     'widget_tweaks',
 )
 
 LOCAL_APPS = (
+    'apps.core',
     'apps.user',
 )
 
@@ -167,6 +169,11 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# Recaptcha
+RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default="")
+RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY', default="")
+NOCAPTCHA = True
+RECAPTCHA_USE_SSL = True
 
 ############################ Custom Site Settings #############################
 DJANGO_DOMAIN = env('DJANGO_DOMAIN')

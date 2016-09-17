@@ -12,5 +12,6 @@ urlpatterns = [
         RedirectView.as_view(url=reverse_lazy('account_logout'))),
     url(r'^signup/$',
         RedirectView.as_view(url=reverse_lazy('account_signup'))),
-    url(r'^user/', include('apps.user.urls')),
+    url(r'^user/', include('apps.user.urls', namespace='user')),
+    url(r'^user/', include('allauth.urls')),
 ]

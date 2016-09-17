@@ -3,6 +3,7 @@ django-widget-tweaks
 django-allauth
 django-environ
 django-extensions
+django-recaptcha
 Jinja2
 MarkupSafe
 psycopg2

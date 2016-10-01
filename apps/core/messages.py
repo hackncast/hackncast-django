@@ -5,7 +5,7 @@ import json
 from django.contrib import messages
 
 
-def debug(request, message, data):
+def debug(request, message, data={}):
     messages.debug(
         request,
         message,
@@ -13,7 +13,7 @@ def debug(request, message, data):
     )
 
 
-def info(request, message, data):
+def info(request, message, data={}):
     messages.info(
         request,
         message,
@@ -21,7 +21,7 @@ def info(request, message, data):
     )
 
 
-def success(request, message, data):
+def success(request, message, data={}):
     messages.success(
         request,
         message,
@@ -29,7 +29,7 @@ def success(request, message, data):
     )
 
 
-def warning(request, message, data):
+def warning(request, message, data={}):
     messages.warning(
         request,
         message,
@@ -37,7 +37,7 @@ def warning(request, message, data):
     )
 
 
-def error(request, message, data):
+def error(request, message, data={}):
     messages.error(
         request,
         message,

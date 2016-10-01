@@ -16,13 +16,18 @@ Features
 
 Fixes
 [ ] Google social login implementation
+[ ] Fix error message for duplicated user email
+[X] Adds recaptcha to signup and password reset form
+[ ] Implement template for /user/social/login/cancelled/
+[ ] Implement template for /user/social/login/error/
 
 Appearance
 [X] Create custom template for email confirmation
 [X] Create custom template for registration
-[ ] Customize the apprerance of /user/email/
-[ ] Customize the apprerance of /user/password/set/
-[ ] Customize the apprerance of /user/password/change/
-[ ] Customize the apprerance of /user/social/connections/
+[x] Customize the apprerance of /user/email/
+[x] Customize the apprerance of /user/password/set/
+[x] Customize the apprerance of /user/password/change/
+[x] Customize the apprerance of /user/social/connections/
 [ ] Customize the apprerance of /user/social/login/cancelled/
 [ ] Customize the apprerance of /user/social/login/error/
+[ ] Add a "reponsive" navbar

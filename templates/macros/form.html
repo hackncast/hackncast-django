@@ -1,0 +1,65 @@
+{% macro active_parameter(parameter_name, text, default=False) %}
+{% if request.GET.get(parameter_name) is none and default %}
+active
+{% elif request.GET.get(parameter_name) == text %}
+active
+{% endif %}
+{% endmacro %}
+
+{% macro has_error(field, text="error") %}
+{% if field.errors %}{{ text }}{% endif %}
+{% endmacro %}
+
+{% macro text_field(field) %}
+<div class="field {{f.has_error(field) }}">
+  <label>{{ field.label }}</label>
+  {{ field }}
+</div>
+{% endmacro %}
+
+
+{% macro field_error_div(field) %}
+{% if field.errors %}
+<div class="ui pointing below red basic label">
+  {{ field.errors.0 }}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro form_error_div(form) %}
+<div class="ui error message" style="display: {% if form.errors or form.non_field_errors() %}block{% else %}none{% endif %}">
+  {% if form.errors or form.non_field_errors() %}
+  <ul class="list">
+    {% for error in form.non_field_errors() %}
+    <li>{{ error }}</li>
+    {% endfor %}
+    {% for field in form %}
+    {% for error in field.errors %}
+    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+    {% endfor %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro slide_toggle(field) %}
+<div class="ui toggle checkbox">
+  <input name="{{ field.name }}" type="checkbox">
+  <label>{{ field.label }}</label>
+</div>
+{% endmacro %}
+
+{% macro api_dropdown(field, id, class="", empty="Escolha uma opção...", label=True) %}
+<div class="field {{ has_error(field) }}">
+  {% if label %}
+  <label>{{ field.label }}</label>
+  {% endif %}
+  <div class="ui {{ class }} selection dropdown" id="{{ id }}-dropdown">
+    <input type="hidden" id="id_{{ id }}" name="{{ id }}" {% if field.value() %}value="{{ field.value() }}"{% endif %}>
+    <i class="dropdown icon"></i>
+    <input type="text" class="search">
+    <div class="default text">{{ empty }}</div>
+  </div>
+</div>
+{% endmacro %}

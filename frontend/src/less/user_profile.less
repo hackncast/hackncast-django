@@ -5,30 +5,20 @@
 & { @import "src/semantic/src/definitions/collections/message"; }
 & { @import "src/semantic/src/definitions/modules/checkbox"; }
 & { @import "src/semantic/src/definitions/elements/label"; }
-
-body {
-  background-color: #2e2e2e;
-  & > .grid {
-    height: 100%;
-  }
-}
-
-.image {
-  margin-top: -100px;
-}
-
-.column {
-  max-width: 450px;
-}
-
-.ui.image.header {
-  margin-bottom: 0px;
-}
-
-.g-recaptcha > div {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+& { @import "src/semantic/src/definitions/collections/table"; }
+& { @import "src/semantic/src/definitions/modules/popup"; }
+& { @import "src/semantic/src/definitions/modules/calendar.less"; }
 
 & { @import "src/less/includes/social_buttons"; }
+
+.ui.main.container.perfil {
+  margin-top: 6em;
+}
+
+.top-padded {
+  padding-top: 25px;
+}
+
+fieldset {
+  border: 0px;
+}

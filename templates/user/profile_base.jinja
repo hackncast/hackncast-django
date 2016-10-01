@@ -1,0 +1,45 @@
+{% extends "core/base.jinja" %}
+{% import "macros/menu.html" as menu with context %}
+{% import "macros/form.html" as f with context %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ static("semantic/custom/user_profile.min.css") }}">
+{% endblock styles %}
+
+{% block header_js %}
+<script src="{{ static("js/user/profile.min.js") }}"></script>
+{% endblock header_js %}
+
+{% block menu %}
+<div class="ui container">
+  <div class="ui top fixed transparent blue inverted borderless pointing menu" id="">
+    <div class="ui container">
+    <a class="item" href="/">
+      <img class="logo" src="{{ static("img/hnc-logo-inverted.svg") }}">
+    </a>
+    {% include "core/comon_menu.jinja" %}
+    </div>
+  </div>
+</div>
+{% endblock menu %}
+
+{% block body %}
+<div class="ui main container perfil">
+  <div class="ui grid" style="margin-top: 25px;">
+    <div class="four wide column">
+      <div class="ui vertical fluid tabular menu">
+      <a href="{{ url('user:profile') }}" class="{{ 'active' if submenu == 'perfil' else '' }} item"><i class="user icon"></i> Perfil</a>
+      <a href="{{ url('account_email') }}" class="{{ 'active' if submenu == 'email' else '' }} item"><i class="mail icon"></i> Emails</a>
+      <a href="{{ url('socialaccount_connections') }}" class="{{ 'active' if submenu == 'social' else '' }} item"><i class="share alternate icon"></i>Conexões Sociais</a>
+      <a href="{{ url('account_change_password') }}" class="{{ 'active' if submenu == 'password' else '' }} item"><i class="lock icon"></i>Senhas</a>
+      </div>
+    </div>
+    <div class="twelve wide stretched column">
+      <section class="ui padded clearing">
+        {% block profile_content %}
+        {% endblock profile_content %}
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock body %}

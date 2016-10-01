@@ -1,0 +1,73 @@
+{% set submenu = 'social' %}
+{% extends "user/profile_base.jinja" %}
+
+{% block head_title %}Conexões Sociais | Hack 'n' Cast{% endblock %}
+
+{% block header_js %}
+<script src="{{ static("js/user/social-connections.min.js") }}"></script>
+{% endblock header_js %}
+
+{% block profile_content %}
+
+<h4 class="ui horizontal divider header">
+  <i class="share alternate icon"></i>
+  Conexões Sociais
+</h4>
+
+<div class="ui info message">
+<p>Estas conexões são utilizadas apenas para fins de autenticação, nos nunca
+iremos publicar nada em seu nome.</p>
+</div>
+
+{% if form.accounts %}
+
+<p>Você pode fazer login no site utilizando uma das seguintes contas:</p>
+
+<form method="post" action="{{ url('socialaccount_connections') }}">
+  {{ csrf_input }}
+
+  <div class="ui middle aligned divided list">
+  {% for base_account in form.accounts %}
+  {% set account = base_account.get_provider_account() %}
+  {% set brand = account.get_brand() %}
+
+    <div class="item">
+      <div class="right floated content">
+        <a class="ui icon red button remove-social-account" data-record-id={{ base_account.id }}>
+          <i class="trash icon"></i>
+        </a>
+      </div>
+      <div class="content">
+        <i class="big {{ base_account.provider }} icon"></i>
+        {{ account}}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+  {{ f.form_error_div(form) }}
+</form>
+
+{% else %}
+<div class="ui info message">
+    <p>Você atualmente não possui nenhum conexão social configurada.</p>
+</div>
+{% endif %}
+  
+{% set inactive_providers = get_inactive_providers(form, get_providers()) %}
+{% if inactive_providers %}
+<div class="ui stacked segment">
+  <p class="ui header">Adicionar uma conexão</p>
+  {% for provider in inactive_providers %}
+  <a class="ui labeled icon button social-{{ provider.id }}"
+     title="Login com {{ provider.name }}"
+     href="{{ provider_login_url(provider.id, process='connect') }}">
+    <i class="{{ provider.id }} icon"></i>
+    {{ provider.name }}
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+{% endblock profile_content %}

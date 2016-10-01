@@ -1,9 +1,12 @@
 Django==1.9
+django-cities-light==3.3.0
+django-model-utils==2.6
 django-widget-tweaks
 django-allauth
 django-environ
 django-extensions
 django-recaptcha
+django-stronghold
 Jinja2
 MarkupSafe
 psycopg2

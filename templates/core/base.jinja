@@ -31,17 +31,71 @@
     {% block extra_body %}
     {% endblock extra_body %}
 
+    {%- set _messages = messages() %}
+    {%- if _messages %}
     <script type="text/javascript" charset="utf-8">
-      {%- set _messages = messages() %}
-      {%- if _messages %}
       $(document).ready(function() {
-        {%- for message in messages() %}
+        {%- for message in _messages %}
+        {%- if message.extra_tags %}
         var opts = {{ message.extra_tags|safe }};
+        {% else %}
+        var opts = {};
+        {% endif %}
         opts['theme'] = "{{ message.level_tag }}";
+        if (!opts.life) {
+          opts['life'] = 3000;
+        }
         $.jGrowl("{{ message }}", opts);
         {%- endfor %}
       });
-      {%- endif %}
     </script>
+    {%- endif %}
+
+    {% block extra_js %}
+    <script type="text/javascript" charset="utf-8">
+      var csrftoken = "{{ csrf_token}}";
+      $.fn.api.settings.api = {
+        'get profession': '/user/ajax/profession/?query={query}',
+        'get country': '/user/ajax/country/?query={query}',
+        'get region': '/user/ajax/region/?country={country}&query={query}',
+        'get city': '/user/ajax/city/?region={region}&query={query}',
+        'add email': '/user/email/',
+        'social connections': '/user/social/connections/',
+      };
+      calendar_settings = {
+        monthFirst: true,
+        formatter: {
+          date: function (date, settings) {
+            if (!date) return '';
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            month = (month < 10 ? '0' : '') + month;
+            day = (day < 10 ? '0' : '') + day;
+            return day + '/' + month + '/' + year;
+          },
+          time: function(time, settings) {
+            var minute = time.getMinutes();
+            var hour = time.getHours();
+            minute = (minute < 10 ? '0' : '') + minute;
+            return hour + ':' + minute;
+          }
+        },
+        text: {
+          days: ["D", "S", "T", "Q", "Q", "S", "S"],
+          months: [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
+            "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+          ],
+          monthsShort: [
+            "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out",
+            "Nov", "Dez"
+          ],
+          today: "Hoje",
+          now: "Agora",
+        }
+      };
+    </script>
+    {% endblock extra_js %}
   </body>
 </html>

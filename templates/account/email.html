@@ -1,0 +1,93 @@
+{% set submenu = 'email' %}
+{% extends "user/profile_base.jinja" %}
+
+{% block head_title %}Meus emails | Hack 'n' Cast{% endblock head_title %}
+
+{% block header_js %}
+<script src="{{ static("js/user/email.min.js") }}"></script>
+{% endblock header_js %}
+
+{% block profile_content %}
+<h4 class="ui horizontal divider header">
+  <i class="mail icon"></i>
+  Endereços de Email
+</h4>
+
+{% if request.user.emailaddress_set.exists() %}
+
+<p>Os seguintes endereços de email estão vinculados à sua conta.</p>
+
+<form action="{{ url('account_email') }}" class="email_list" method="post">
+  {{ csrf_input }}
+  <fieldset class="">
+    <table class="ui compact celled definition table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Primário</th>
+          <th>Verificação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emailaddress in request.user.emailaddress_set.all() %}
+        <tr>
+          <td>{{ emailaddress.email }}</td>
+          <td>
+            <div class="ui fitted slider checkbox primary-email-checkbox">
+              <input id="email_radio_{{loop.index}}" type="radio" name="email" {% if emailaddress.primary or request.user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/> <label></label>
+            </div>
+          </td>
+          <td>
+            {% if emailaddress.verified %}
+            <span class="ui green horizontal label">Sucesso</span>
+            {% else %}
+            <span class="ui red horizontal label">Pendente</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="mini ui icon buttons">
+              <button id="resend-email-{{ emailaddress.id }}" data-email="{{ emailaddress.email }}" class="ui green {% if emailaddress.verified %}disabled{% endif %} button resend-button" data-tooltip="Reenviar verificação de email" data-inverted="">
+                <i class="send icon"></i>
+              </button>
+              <button id="remove-email-{{ emailaddress.id }}" data-email="{{ emailaddress.email }}" class="ui red button remove-button" data-tooltip="Remover email" data-inverted="">
+                <i class="trash icon"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+</form>
+
+{% else %}
+
+<div class="ui warning icon message">
+  <i class="warning sign icon"></i>
+  <div class="content">
+    <div class="header">
+      Atenção, caro usuário!
+    </div>
+    <p>Você ainda não possui nenhum email cadastrado. Você realmente deveria
+    adicionar um endereço de email para que você possa receber notificações,
+    trocar e/ou recuperar suas senhas e etc.</p>
+  </div>
+</div>
+
+{% endif %}
+
+<div class="ui stacked segment">
+  <h4>Adicionar um endereço de Email</h4>
+  <form method="post" action="{{ url('account_email') }}" class="add_email">
+    {{ csrf_input }}
+    <div class="ui fluid left icon action input field {{ f.has_error(form.email) }}">
+      <i class="mail icon"></i>
+      {{ form.email }}
+      <button class="ui button" name="action_add" type="submit">Adicionar</button>
+    </div>
+    {{ f.form_error_div(form) }}
+  </form>
+</div>
+{% endblock profile_content %}

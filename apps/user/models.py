@@ -1,80 +1,60 @@
 from django.db import models
-from django.utils import timezone
-from django.utils.translation import ugettext as _
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.base_user import BaseUserManager
 
-from apps.core.querysets import BaseModelQuerySet
+from apps.core.models import (EmailUserManager, Location, Schooling,
+                              Profession)
+from model_utils import Choices
 
-
-class EmailUserManager(BaseUserManager):
-    def create_user(self, *args, **kwargs):
-        """
-        Cria e salva um usuario com os dados passados via kwargs.
-        """
-
-        email = kwargs["email"]
-        email = self.normalize_email(email)
-        password = kwargs["password"]
-        kwargs.pop("password")
-
-        if not email:
-            raise ValueError(_('Users must have an email address'))
-
-        user = self.model(**kwargs)
-
-        user.set_password(password)
-        user.save(using=self._db)
-
-        return user
-
-    def create_superuser(self, *args, **kwargs):
-        """
-        Cria e salva um superusuario com os dados passados via kwargs.
-        """
-
-        user = self.create_user(**kwargs)
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+SEX = Choices(
+    ('', 'Escolha uma opção...'),
+    ('m', 'Masculino'),
+    ('f', 'Feminino'),
+)
+OCCUPATIONS = Choices(
+    (None, 'Escolha uma ocupacao...'),
+    (0, 'Estudo'),
+    (1, 'Trabalho'),
+    (2, 'Estudo e trabalho'),
+    (3, 'Desocupado'),
+)
 
 
-class BaseModel(models.Model):
-    """ Model base do sistema """
-
-    is_active = models.BooleanField(_('Ativo'), default=True)
-    created_at = models.DateTimeField(_('Criado em'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Modificado em'), auto_now=True)
-    media_path = ''
-
-    objects = BaseModelQuerySet.as_manager()
-
-    class Meta:
-        abstract = True
-        ordering = ('-updated_at',)
-
-
-class HNCUser(AbstractBaseUser):
+class HNCUser(Location, AbstractBaseUser):
     email = models.EmailField(
-        verbose_name='Endereço de Email',
-        unique=True,
-        max_length=254,
+        verbose_name='Endereço de Email', unique=True, max_length=254,
+        db_index=True,
     )
     first_name = models.CharField(
-        verbose_name='Nome',
-        max_length=50,
-        blank=False,
-        help_text='Informe o nome',
+        verbose_name='Nome', max_length=50, blank=False,
     )
     last_name = models.CharField(
-        verbose_name='Sobrenome',
-        max_length=50,
-        blank=False,
-        help_text='Informe o sobrenome',
+        verbose_name='Sobrenome', max_length=50, blank=True,
+    )
+    birthdate = models.DateField(
+        verbose_name='Data de Nascimento', null=True,
+    )
+    sex = models.CharField(
+        verbose_name='Sexo', choices=SEX, max_length=20, blank=True,
+    )
+    occupation = models.IntegerField(
+        verbose_name='Ocupação', choices=OCCUPATIONS, null=True,
+    )
+    schooling = models.ForeignKey(
+        verbose_name='Escolaridade', default=None, null=True, to=Schooling,
+    )
+    profession = models.ForeignKey(
+        verbose_name='Profissão', default=None, null=True, to=Profession,
     )
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    # Links
 
     USERNAME_FIELD = 'email'
+    SEX = SEX
+    OCCUPATIONS = OCCUPATIONS
     objects = EmailUserManager()
+
+    def update(self, **kwargs):
+        for attr, value in kwargs.items():
+            setattr(self, attr, value)

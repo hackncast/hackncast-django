@@ -16,6 +16,10 @@ DEBUG = env.bool('DJANGO_DEBUG', default=False)
 WSGI_APPLICATION = '{}.wsgi.application'.format(ROOT_NAME)
 
 # Internationalization
+LANGUAGES = (
+    ("pt-br", "Português do Brasil"),
+    ("en", "Inglês"),
+)
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -91,7 +95,9 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.twitter',
     'captcha',
+    'cities_light',
     'widget_tweaks',
+    'stronghold',
 )
 
 LOCAL_APPS = (
@@ -109,6 +115,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'stronghold.middleware.LoginRequiredMiddleware',
 ]
 
 TEMPLATES = [
@@ -140,8 +147,6 @@ TEMPLATES = [
 ]
 
 ########################## Third Party App Settings ###########################
-CRISPY_TEMPLATE_PACK = 'semanticui'
-
 # Allauth Settings
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -168,6 +173,39 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# Stronghold
+STRONGHOLD_PUBLIC_URLS  = (
+    r"^%s.+$" % STATIC_URL,
+    r"^%s.+$" % MEDIA_URL,
+    r"^/$",
+    r"^/login/",
+    r"^/user/login/",
+    r"^/logout/",
+    r"^/user/logout/",
+    r"^/signup/",
+    r"^/user/signup/",
+    r"^/user/inactive/",
+    r"^/user/confirm-email/",
+    r"^/user/github/",
+    r"^/user/google/",
+    r"^/user/twitter/",
+    r"^/user/password/reset/",
+    r"^/user/social/signup/",
+    r"^/user/social/login/cancelled/",
+    r"^/user/social/login/error/",
+)
+
+# Configuração do Cities Light
+CITIES_LIGHT_APP_NAME = "core"
+CITIES_LIGHT_ALTERNATE_NAME_SEP = ";"
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['pt']
+CITIES_LIGHT_INDEX_SEARCH_NAMES = True
+CITIES_LIGHT_CITY_SOURCES = [
+    "http://download.geonames.org/export/dump/BR.zip",
+]
+
+CITIES_LIGHT_DATA_DIR = str(ROOT_DIR.path('infra', 'data', 'cities_light'))
 
 # Recaptcha
 RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default="")

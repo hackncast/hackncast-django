@@ -1,0 +1,7 @@
+{% macro active_parameter(parameter_name, text, default=False) %}
+{% if request.GET.get(parameter_name) is none and default %}
+active
+{% elif request.GET.get(parameter_name) == text %}
+active
+{% endif %}
+{% endmacro %}

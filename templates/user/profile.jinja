@@ -1,0 +1,115 @@
+{% set submenu = 'perfil' %}
+{% extends "user/profile_base.jinja" %}
+
+{% block head_title %}Meu perfil | Hack 'n' Cast{% endblock head_title %}
+
+{% block profile_content %}
+<form class="ui form" method="POST">
+  {{ csrf_input }}
+
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+
+  <div class="ui container">
+    <h4 class="ui horizontal divider header">
+      <i class="user icon"></i>
+      Dados Pessoais
+    </h4>
+<div class="ui info message">
+    <p>Os dados informados aqui não serão tornados públicos e serão utilizados
+    apenas pela equipe do Hack 'n' Cast pra fins de contabilização
+    demográfica.</p>
+</div>
+    <div class="field">
+      <label>Nome</label>
+      <div class="two fields">
+        <div class="field {{ f.has_error(form.first_name) }}">
+          {{ form.first_name|set_attr(placeholder="Primeiro Nome") }}
+        </div>
+        <div class="field {{ f.has_error(form.last_name) }}">
+          {{ form.last_name|set_attr(placeholder="Sobrenome") }}
+        </div>
+      </div>
+
+      <div class="two fields">
+        <div class="field {{ f.has_error(form.birthdate) }}">
+          <label>{{ form.birthdate.label }}</label>
+          <div class="ui calendar" id="birthdate">
+            <div class="ui input left icon">
+              <i class="calendar icon"></i>
+              {{ form.birthdate|set_attr(placeholder="Escolha uma data") }}
+            </div>
+          </div>
+        </div>
+
+        <div class="field {{ f.has_error(form.sex) }}">
+          <label>{{ form.sex.label }}</label>
+          {{ form.sex|set_attr(placeholder="Sexo...") }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui container top-padded">
+    <h4 class="ui horizontal divider header">
+      <i class="student icon"></i>
+      Escolaridade & Ocupações
+    </h4>
+    <div class="three fields">
+      <div class="field {{f.has_error(form.occupation) }}">
+        <label>{{ form.occupation.label }}</label>
+        {{ form.occupation }}
+      </div>
+      <div class="field {{f.has_error(form.schooling) }}">
+        <label>{{ form.schooling.label }}</label>
+        {{ form.schooling }}
+      </div>
+
+      {{ f.api_dropdown(form.profession, 'profession', class='search', empty="Escolha uma profissão...") }}
+    </div>
+  </div>
+
+  <div class="ui container top-padded">
+    <h4 class="ui horizontal divider header">
+      <i class="world icon"></i>
+      Localização
+    </h4>
+    <div class="field">
+      <div class="three fields">
+        {{ f.api_dropdown(form.country, 'country', class='search', empty="Pais...", label=False) }}
+
+        {{ f.api_dropdown(form.region, 'region', class='search', empty="Estado...", label=False) }}
+
+        {{ f.api_dropdown(form.city, 'city', class='search', empty="Cidade...", label=False) }}
+      </div>
+    </div>
+  </div>
+
+  {{ f.form_error_div(form) }}
+
+  <div class="ui container top-padded">
+    <button class="ui blue left labeled icon button right floated" type="submit">
+      <i class="save icon"></i>
+      Salvar
+    </button>
+  </div>
+</form> 
+{% endblock profile_content %}
+
+{% block extra_js %}
+{{ super() }}
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  $('#birthdate').calendar({
+    type: 'date',
+    startMode: 'year',
+    maxDate: new Date(),
+    monthFirst: true,
+    formatter: calendar_settings.formatter,
+    monthFirst: calendar_settings.monthFirst,
+    text: calendar_settings.text,
+  });
+});
+</script>
+{% endblock extra_js %}

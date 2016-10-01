@@ -58,4 +58,14 @@ $(document).ready(function() {
       }
     }
   });
+
+  $('#birthdate').calendar({
+    type: 'date',
+    startMode: 'year',
+    maxDate: new Date(),
+    monthFirst: true,
+    formatter: calendar_settings.formatter,
+    monthFirst: calendar_settings.monthFirst,
+    text: calendar_settings.text,
+  });
 });

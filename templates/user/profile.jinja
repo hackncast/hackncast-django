@@ -96,20 +96,3 @@
   </div>
 </form> 
 {% endblock profile_content %}
-
-{% block extra_js %}
-{{ super() }}
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-  $('#birthdate').calendar({
-    type: 'date',
-    startMode: 'year',
-    maxDate: new Date(),
-    monthFirst: true,
-    formatter: calendar_settings.formatter,
-    monthFirst: calendar_settings.monthFirst,
-    text: calendar_settings.text,
-  });
-});
-</script>
-{% endblock extra_js %}

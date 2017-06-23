@@ -1,7 +1,4 @@
-//=include src/js/base.js
-//=include dist/semantic/components/visibility.min.js
-//=include dist/semantic/components/api.min.js
-//=include dist/semantic/components/dropdown.min.js
+//=include src/js/user/base.js
 
 
 $(document).ready(function() {

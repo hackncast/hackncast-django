@@ -1,20 +1,15 @@
 @import "src/less/base";
 
-& { @import "src/semantic/src/definitions/collections/form"; }
-& { @import "src/semantic/src/definitions/elements/input"; }
-& { @import "src/semantic/src/definitions/collections/message"; }
-& { @import "src/semantic/src/definitions/modules/checkbox"; }
-& { @import "src/semantic/src/definitions/elements/label"; }
+@import (inline) "vendor/semantic-ui/components/input.css";
+@import (inline) "vendor/semantic-ui/components/message.css";
+@import (inline) "vendor/semantic-ui/components/checkbox.css";
+@import (inline) "vendor/semantic-ui/components/label.css";
 
 body {
   background-color: #2e2e2e;
   & > .grid {
     height: 100%;
   }
-}
-
-.image {
-  margin-top: -100px;
 }
 
 .column {

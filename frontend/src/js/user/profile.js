@@ -1,9 +1,8 @@
-//=include src/js/base.js
-//=include dist/semantic/components/visibility.min.js
-//=include dist/semantic/components/api.min.js
-//=include dist/semantic/components/dropdown.min.js
-//=include dist/semantic/components/calendar.min.js
-//=include dist/semantic/components/popup.min.js
+//=include src/js/user/base.js
+//=include vendor/semantic-ui-calendar/calendar.js
+//=include vendor/semantic-ui/components/popup.js
+
+
 
 
 $(document).ready(function() {

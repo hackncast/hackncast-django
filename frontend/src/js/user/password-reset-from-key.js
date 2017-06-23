@@ -1,4 +1,4 @@
-//=include src/js/base.js
+//=include src/js/user/base.js
 
 $(document).ready(function() {
   $('.ui.form').form({

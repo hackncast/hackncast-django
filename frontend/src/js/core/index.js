@@ -1,5 +1,5 @@
 //=include src/js/base.js
-//=include dist/semantic/components/visibility.js
+//=include vendor/semantic-ui/components/visibility.js
 
 $(document)
   .ready(function() {

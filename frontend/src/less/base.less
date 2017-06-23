@@ -1,51 +1,34 @@
-& { @import "src/semantic/src/definitions/globals/reset"; }
-& { @import "src/semantic/src/definitions/globals/site"; }
+@import (inline) "vendor/semantic-ui/components/reset.css";
+@import (inline) "vendor/semantic-ui/components/site.css";
 
-& { @import "src/semantic/src/definitions/elements/container"; }
-& { @import "src/semantic/src/definitions/collections/grid"; }
-& { @import "src/semantic/src/definitions/elements/header"; }
-& { @import "src/semantic/src/definitions/elements/image"; }
-& { @import "src/semantic/src/definitions/collections/menu"; }
+@import (inline) "vendor/semantic-ui/components/container.css";
+@import (inline) "vendor/semantic-ui/components/grid.css";
+@import (inline) "vendor/semantic-ui/components/header.css";
+@import (inline) "vendor/semantic-ui/components/image.css";
+@import (inline) "vendor/semantic-ui/components/menu.css";
 
-& { @import "src/semantic/src/definitions/elements/divider"; }
-& { @import "src/semantic/src/definitions/modules/dropdown"; }
-& { @import "src/semantic/src/definitions/elements/segment"; }
-& { @import "src/semantic/src/definitions/elements/button"; }
-& { @import "src/semantic/src/definitions/elements/list"; }
-& { @import "src/semantic/src/definitions/elements/icon"; }
-& { @import "src/semantic/src/definitions/modules/sidebar"; }
-& { @import "src/semantic/src/definitions/modules/transition"; }
+@import (inline) "vendor/semantic-ui/components/divider.css";
+@import (inline) "vendor/semantic-ui/components/dropdown.css";
+@import (inline) "vendor/semantic-ui/components/segment.css";
+@import (inline) "vendor/semantic-ui/components/button.css";
+@import (inline) "vendor/semantic-ui/components/list.css";
+@import (inline) "vendor/semantic-ui/components/icon.css";
+@import (inline) "vendor/semantic-ui/components/sidebar.css";
+@import (inline) "vendor/semantic-ui/components/transition.css";
+
+@import (inline) "vendor/semantic-ui/components/loader.css";
+@import (inline) "vendor/semantic-ui/components/dimmer.css";
 
 // & { @import "src/semantic/src/definitions/elements/flag"; }
 // & { @import "src/semantic/src/definitions/elements/input"; }
 // & { @import "src/semantic/src/definitions/elements/label"; }
-// & { @import "src/semantic/src/definitions/elements/loader"; }
 // & { @import "src/semantic/src/definitions/elements/rail"; }
 // & { @import "src/semantic/src/definitions/elements/reveal"; }
 // & { @import "src/semantic/src/definitions/elements/step"; }
-// & { @import "src/semantic/src/definitions/collections/breadcrumb"; }
-// & { @import "src/semantic/src/definitions/collections/form"; }
-// & { @import "src/semantic/src/definitions/collections/message"; }
-// & { @import "src/semantic/src/definitions/collections/table"; }
-// & { @import "src/semantic/src/definitions/views/ad"; }
-// & { @import "src/semantic/src/definitions/views/card"; }
-// & { @import "src/semantic/src/definitions/views/comment"; }
-// & { @import "src/semantic/src/definitions/views/feed"; }
-// & { @import "src/semantic/src/definitions/views/item"; }
-// & { @import "src/semantic/src/definitions/views/statistic"; }
-// & { @import "src/semantic/src/definitions/modules/accordion"; }
-// & { @import "src/semantic/src/definitions/modules/checkbox"; }
-// & { @import "src/semantic/src/definitions/modules/dimmer"; }
-// & { @import "src/semantic/src/definitions/modules/embed"; }
-// & { @import "src/semantic/src/definitions/modules/modal"; }
-// & { @import "src/semantic/src/definitions/modules/nag"; }
-// & { @import "src/semantic/src/definitions/modules/popup"; }
-// & { @import "src/semantic/src/definitions/modules/progress"; }
-// & { @import "src/semantic/src/definitions/modules/rating"; }
-// & { @import "src/semantic/src/definitions/modules/search"; }
-// & { @import "src/semantic/src/definitions/modules/shape"; }
-// & { @import "src/semantic/src/definitions/modules/sticky"; }
-// & { @import "src/semantic/src/definitions/modules/tab"; }
+
+@import (inline) "vendor/semantic-ui/components/form.css";
+
+@import (inline) "vendor/jquery/jquery.jgrowl.css";
 
 @font-face {
   font-family: 'Coolvetica-Regular';
@@ -54,22 +37,6 @@
   src: url('/static/fonts/coolvetica_rg.ttf');
 }
 
-// @import "src/vendor/font-awesome/less/variables.less";
-// @fa-font-path: "../../fonts";
-// @import "src/vendor/font-awesome/less/mixins.less";
-// @import "src/vendor/font-awesome/less/path.less";
-// @import "src/vendor/font-awesome/less/core.less";
-// @import "src/vendor/font-awesome/less/larger.less";
-// @import "src/vendor/font-awesome/less/fixed-width.less";
-// @import "src/vendor/font-awesome/less/list.less";
-// @import "src/vendor/font-awesome/less/bordered-pulled.less";
-// @import "src/vendor/font-awesome/less/animated";
-// @import "src/vendor/font-awesome/less/rotated-flipped";
-// @import "src/vendor/font-awesome/less/stacked";
-// @import "src/vendor/font-awesome/less/icons";
-// @import "src/vendor/font-awesome/less/screen-reader";
-
-@import (inline) "src/vendor/jGrowl/jquery.jgrowl.css";
 
 /* jGrowl appearence tweak */
 .jGrowl {

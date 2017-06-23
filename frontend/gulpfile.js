@@ -1,119 +1,71 @@
-var gulp         = require('gulp');
-var less         = require('gulp-less');
-var watch        = require('gulp-watch');
-var minifyCSS    = require('gulp-minify-css');
-var rename       = require('gulp-rename');
-var replace      = require('gulp-replace');
-var print        = require('gulp-print');
-var autoprefixer = require('gulp-autoprefixer');
-var cache        = require('gulp-cache');
-var debug        = require('gulp-debug');
-var duration     = require('gulp-duration');
-var imagemin     = require('gulp-imagemin');
-var include      = require("gulp-include");
-var uglify       = require('gulp-uglify');
-var del          = require('del');
-var browserSync  = require('browser-sync').create();
+var del           = require('del');
+var gulp          = require('gulp');
+var pump          = require('pump');
+var print         = require('gulp-print');
+var watch         = require('gulp-watch');
+var rename        = require('gulp-rename');
+var browserSync   = require('browser-sync').create();
+var sourcemaps    = require('gulp-sourcemaps');
 
-log = {
+
+// Load Gulp settings
+var sources = require('./tasks/settings.json');
+
+// Initialize shared plugins map
+var plugins  = {
+  rename: rename,
+  sourcemaps: sourcemaps,
+  print: print,
+  pump: pump,
+  del: del
+};
+
+// Functions and variables
+sources.js.settings.include.includePaths = [__dirname];
+sources.log = {
   created: function(file) {
     return 'Created: ' + file;
   }
-}
+};
 
-settings = {
-  prefix: {
-    browsers: [
-      'last 2 versions',
-      '> 1%',
-      'opera 12.1',
-      'bb 10',
-      'android 4'
-    ]
-  }
-}
+// Inicialize tasks
+require('./tasks/images.js')(gulp, sources, plugins);
+require('./tasks/javascript.js')(gulp, sources, plugins);
+require('./tasks/less.js')(gulp, sources, plugins);
 
-/* Task to compile less */
-gulp.task('css', function() {
-  gulp.src(['./src/less/**/*.less'])
-    .pipe(less())
-    .pipe(autoprefixer(settings.prefix))
-    .pipe(gulp.dest('./dist/semantic/custom'))
-    .pipe(print(log.created))
-    .pipe(minifyCSS({
-      processImport       : false,
-      restructuring       : false,
-    }))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('./dist/semantic/custom'))
-    .pipe(print(log.created))
-    .pipe(duration('Elapsed time'))
-  ;
+/* Task that copy fonts */
+gulp.task('fonts', function(){
+  return gulp.src(sources.fonts.origin)
+    .pipe(gulp.dest(sources.fonts.target))
+    .pipe(print(sources.log.created));
 });
 
-/* Task optimize images */
-gulp.task('img', function(){
-  return gulp.src('./src/img/**/*.+(png|jpg|gif|svg)')
-  .pipe(cache(imagemin({
-    interlaced: true,
-    pngquant: true,
-    progressive: true
-  })))
-  .pipe(gulp.dest('./dist/img/'))
-  .pipe(print(log.created))
+gulp.task('fonts-clean', function (cb) {
+  del(sources.fonts.target  + '*', cb);
+  return cb(null);
 });
 
-/* Task copy vendor files */
-gulp.task('vendor', function(){
-  return gulp.src(['./src/vendor/**/*'])
-  .pipe(gulp.dest('./dist/'))
+/* Task to watch changes */
+gulp.task('watch', function(cb) {
+  browserSync.init(sources.browsersync);
+  gulp.watch(sources.less.origin, ['css']);
+  gulp.watch(sources.less.minify).on('change', browserSync.reload);
+
+  gulp.watch(sources.js.origin, ['js']);
+  gulp.watch(sources.js.minify).on('change', browserSync.reload);
+
+  gulp.watch(sources.img.origin, ['img']);
+  gulp.watch(sources.img.target + '**/*', ['img']).on('change', browserSync.reload);
+
+  gulp.watch(sources.templates.origin).on('change', browserSync.reload);
+
+  gulp.watch(sources.python.origin).on('change', function(){
+    setTimeout(browserSync.reload, 3000);
+  });
+
+  cb(null);
 });
 
-/* Task that compiles js files */
-gulp.task('js', function(){
-  return gulp.src(['./src/js/**/*.js'])
-  .pipe(include({
-    includePaths: [
-      __dirname
-    ]
-  })).on('error', console.log)
-  .pipe(gulp.dest("./dist/js"))
-  .pipe(print(log.created))
-  .pipe(uglify())
-  .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest("./dist/js"))
-  .pipe(print(log.created));
-});
-
-/* Task to watch less changes */
-gulp.task('watch', function() {
-  browserSync.init({
-    proxy: "localhost:8000",
-    open: false
-  })
-
-  gulp.watch(
-      ['./src/less/**/*.less', './dist/semantic/*.css', './dist/semantic/components/*.css'], ['css']
-  ).on('change', browserSync.reload);
-
-  gulp.watch(
-    ['./src/js/**/*.js', './dist/semantic/**/*.js'], ['js']
-  ).on('change', browserSync.reload);
-
-  gulp.watch(
-    ['./src/img/**/*.+(png|jpg|gif|svg)'], ['img']
-  ).on('change', browserSync.reload);
-
-  gulp.watch(
-    ['../templates/dj/**/*.html', '../templates/**/*.jinja']
-  ).on('change', browserSync.reload);
-});
-
-/* Clean output and cache */
-gulp.task('frontend-clean', function (cb) {
-  del('./dist/*', cb)
-  return cache.clearAll(cb);
-});
-
-/* Task when running `gulp` from terminal */
-gulp.task('default', ['vendor', 'css', 'js', 'img']);
+gulp.task('clean', ['img-clean', 'js-clean', 'css-clean']);
+gulp.task('dist', ['img', 'js-dist', 'css-dist']);
+gulp.task('default', ['clean', 'fonts', 'img', 'js', 'css']);

@@ -1,0 +1,57 @@
+{
+  "js": {
+    "origin": ["./src/js/**/*.js"],
+    "minify": ["./dist/js/**/*.js", "!./dist/js/**/*.min.js", "!./dist/js/**/*.js.map"],
+    "target": "./dist/js/",
+    "settings": {
+      "include": {
+      },
+      "babel": {
+        "presets": ["es2015"]
+      }
+    }
+  },
+  "less": {
+    "origin": ["./src/less/**/*.less"],
+    "minify": ["./dist/css/**/*.css", "!./dist/css/**/*.min.css", "!./dist/css/**/*.css.map"],
+    "target": "./dist/css/",
+    "settings": {
+      "prefix": {
+        "browsers": [
+          "last 2 versions",
+          "> 1%",
+          "opera 12.1",
+          "bb 10",
+          "android 4"
+        ]
+      },
+      "minify": {
+      }
+    }
+  },
+  "img": {
+    "origin": ["./src/img/**/*.+(png|jpg|gif|svg)"],
+    "target": "./dist/img/",
+    "settings": {
+      "minify": {
+        "interlaced": true,
+        "pngquant": true,
+        "progressive": true
+      }
+    }
+  },
+  "fonts": {
+      "origin": ["./vendor/semantic-ui/themes/default/assets/fonts/*", "./vendor/fonts/*"],
+      "target": "./dist/fonts/"
+  },
+  "templates": {
+      "origin": ["../templates/dj/**/*.html", "../templates/**/*.jinja"]
+  },
+  "python": {
+      "origin": ["../apps/**/*.py", "../hnc/**/*.py"]
+  },
+  "browsersync": {
+      "proxy": "localhost:8000",
+      "open": false
+  }
+}

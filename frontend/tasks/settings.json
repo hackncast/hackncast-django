@@ -1,6 +1,6 @@
 {
   "js": {
-    "origin": ["./src/js/**/*.js"],
+    "origin": ["./src/js/**/*.js", "./vendor/**/*.js"],
     "minify": ["./dist/js/**/*.js", "!./dist/js/**/*.min.js", "!./dist/js/**/*.js.map"],
     "target": "./dist/js/",
     "settings": {

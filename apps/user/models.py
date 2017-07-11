@@ -58,3 +58,9 @@ class HNCUser(Location, AbstractBaseUser):
     def update(self, **kwargs):
         for attr, value in kwargs.items():
             setattr(self, attr, value)
+
+
+class WeakPassword(models.Model):
+    password = models.CharField(
+        max_length=150, verbose_name='Senha', db_index=True
+    )

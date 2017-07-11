@@ -1,7 +1,7 @@
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 
-from allauth.account.views import PasswordResetView, SignupView
+from allauth.account.views import PasswordResetView, SignupView, PasswordResetFromKeyView
 
 from apps.core import messages
 from .. import forms
@@ -13,6 +13,10 @@ class CustomSignupView(SignupView):
 
 class CustomPasswordResetView(PasswordResetView):
     form_class = forms.CustomAllauthResetPasswordForm
+
+
+class CustomPasswordResetFromKeyView(PasswordResetFromKeyView):
+    form_class = forms.CustomPasswordResetFromKeyForm
 
 
 class PersonalInfoView(FormView):

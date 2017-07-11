@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 
 from allauth.account import forms as ac_forms
 from captcha.fields import ReCaptchaField
@@ -9,8 +10,24 @@ from captcha.fields import ReCaptchaField
 from . import models
 
 
-class CustomAllauthSignupForm(ac_forms.SignupForm):
-    captcha = ReCaptchaField()
+class BasePasswordFormMixin(forms.Form):
+    def clean_password1(self):
+        password = self.cleaned_data['password1']
+        if models.WeakPassword.objects.filter(password=password).exists():
+            self.add_error(
+                NON_FIELD_ERRORS,
+                'A senha informada está entre as 100.000 senhas mais comuns.'
+            )
+            raise ValidationError(
+                'Bitch, please... Use uma senha decente!'
+            )
+        return password
+
+class CustomAllauthSignupForm(BasePasswordFormMixin, ac_forms.SignupForm):
+    captcha = ReCaptchaField(attrs={
+        'callback': 'captcha_valid',
+        'expired-callback': 'captcha_expired',
+    })
     first_name = forms.CharField()
 
     def save(self, request):
@@ -20,8 +37,15 @@ class CustomAllauthSignupForm(ac_forms.SignupForm):
         return user
 
 
+class CustomPasswordResetFromKeyForm(BasePasswordFormMixin, ac_forms.ResetPasswordKeyForm):
+    pass
+
+
 class CustomAllauthResetPasswordForm(ac_forms.ResetPasswordForm):
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(attrs={
+        'callback': 'captcha_valid',
+        'expired-callback': 'captcha_expired',
+    })
 
 
 class PersonalInfoForm(forms.ModelForm):

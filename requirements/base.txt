@@ -1,4 +1,4 @@
-Django==1.9
+Django==1.11.18
 django-cities-light==3.3.0
 django-model-utils==2.6
 django-widget-tweaks
